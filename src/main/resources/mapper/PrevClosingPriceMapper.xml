@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mingletrade.mingletrade.mapper.PrevClosingPriceMapper">
+
+
+	<insert id="insertPrevClosingPrice" parameterType="com.mingletrade.mingletrade.domain.PrevClosingPrice">
+		INSERT INTO prev_closing_price (close_date, symbol, price)
+		VALUES (#{closeDate}, #{symbol}, #{price})
+	</insert>
+	
+	<select id="selectPrevClosingPriceAll" parameterType="String">
+		SELECT id, close_date, symbol, price, created_at 
+		FROM prev_closing_price 
+		WHERE close_date = TO_DATE(#{closeDate}, 'YYYY-MM-DD')
+	</select>
+
+</mapper>
