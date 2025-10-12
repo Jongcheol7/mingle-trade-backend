@@ -5,12 +5,12 @@
 
 
 	<insert id="insertPrevClosingPrice" parameterType="com.mingletrade.mingletrade.domain.PrevClosingPrice">
-		INSERT INTO prev_closing_price (close_date, symbol, price)
-		VALUES (#{closeDate}, #{symbol}, #{price})
+		INSERT INTO prev_closing_price (close_date, symbol, price, logo_url)
+		VALUES (#{closeDate}, #{symbol}, #{price}, #{logoUrl})
 	</insert>
 	
 	<select id="selectPrevClosingPriceAll" parameterType="String">
-		SELECT id, close_date, symbol, price, created_at 
+		SELECT close_date, symbol, price, logo_url
 		FROM prev_closing_price 
 		WHERE close_date = TO_DATE(#{closeDate}, 'YYYY-MM-DD')
 	</select>

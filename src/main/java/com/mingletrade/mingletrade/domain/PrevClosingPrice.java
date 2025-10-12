@@ -9,6 +9,7 @@ public class PrevClosingPrice {
 	private LocalDate closeDate;
 	private String symbol;
 	private Double price;
+	private String logoUrl;
 	private LocalDateTime createdAt;
 	
 	public Long getId() {
@@ -35,6 +36,12 @@ public class PrevClosingPrice {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -45,6 +52,6 @@ public class PrevClosingPrice {
 	@Override
 	public String toString() {
 		return "PrevClosingPrice [id=" + id + ", closeDate=" + closeDate + ", symbol=" + symbol + ", price=" + price
-				+ ", createdAt=" + createdAt + "]";
+				+ ", logoUrl=" + logoUrl + ", createdAt=" + createdAt + "]";
 	}
 }

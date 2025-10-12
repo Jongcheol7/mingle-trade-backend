@@ -58,6 +58,8 @@ public class PrevClosingPriceService {
 				.collect(Collectors.toList());
 		System.out.println("usdtPairs: " + usdtPairs);
 		
+		
+		
 		// 4.각 코인 전날 종가 가져오기
 		List<Map<String, Object>> results = new ArrayList<Map<String,Object>>();
 		for(String symbol : usdtPairs){
@@ -70,11 +72,19 @@ public class PrevClosingPriceService {
 				Object[] prevClosingInfo = data[data.length - 2];
 				double prevClosingPrice = Double.parseDouble((String) prevClosingInfo[4]);
 				
+				String baseSymbol = symbol.replaceAll("(USDT|BUSD|TUSD|USDC)+$", "").toLowerCase();
+
+				String logoUrl = String.format(
+					    "https://assets.coincap.io/assets/icons/%s@2x.png",
+					    baseSymbol
+					);
+				
 				LocalDate yesterday = LocalDate.now().minusDays(1);
 				PrevClosingPrice dto = new PrevClosingPrice();
 				dto.setCloseDate(yesterday);
 				dto.setSymbol(symbol);
 				dto.setPrice(prevClosingPrice);
+				dto.setLogoUrl(logoUrl);
 				
 				mapper.insertPrevClosingPrice(dto);
 			}catch(Exception e) {
