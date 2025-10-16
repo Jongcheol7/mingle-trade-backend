@@ -9,5 +9,27 @@
 		VALUES (#{title}, #{writer}, #{content})
 	</insert>
 	
+	<select id="selectAllFreeboard" resultType="com.mingletrade.mingletrade.domain.Freeboard">
+	  SELECT 
+	    id, 
+	    title, 
+	    writer, 
+	    content, 
+	    created_at AS createdAt, 
+	    deleted_at AS deletedAt, 
+	    views
+	  FROM freeboard
+	  WHERE deleted_at IS NULL
+	  ORDER BY id DESC
+	  LIMIT #{limit} OFFSET #{start}
+	</select>
+
+	<select id="selectTotalCount" resultType="int">
+		select count(*) 
+		from freeboard 
+		where deleted_at is null
+	</select>
+
+	
 
 </mapper>
