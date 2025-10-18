@@ -36,6 +36,7 @@ public class PrevClosingPriceService {
 	
 	@Transactional(readOnly = true)
 	public List<PrevClosingPrice> selectAll(String closeDate){
+		System.out.println("closeDate : "+ closeDate);
 		return mapper.selectPrevClosingPriceAll(closeDate);
 	}
 	
@@ -62,6 +63,11 @@ public class PrevClosingPriceService {
 		
 		// 4.각 코인 전날 종가 가져오기
 		List<Map<String, Object>> results = new ArrayList<Map<String,Object>>();
+
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+		// 기존에 들어있는게 있다면 삭제하고 재시작하자.
+		mapper.deletePrevClosingPrice(yesterday);
+		
 		for(String symbol : usdtPairs){
 			try {
 				String url = "https://api.binance.com/api/v3/klines?symbol=" + symbol + "&interval=1d&limit=2";
@@ -79,7 +85,6 @@ public class PrevClosingPriceService {
 					    baseSymbol
 					);
 				
-				LocalDate yesterday = LocalDate.now().minusDays(1);
 				PrevClosingPrice dto = new PrevClosingPrice();
 				dto.setCloseDate(yesterday);
 				dto.setSymbol(symbol);

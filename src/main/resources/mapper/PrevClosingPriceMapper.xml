@@ -14,5 +14,10 @@
 		FROM prev_closing_price 
 		WHERE close_date = TO_DATE(#{closeDate}, 'YYYY-MM-DD')
 	</select>
+	
+	<delete id="deletePrevClosingPrice">
+		delete from prev_closing_price 
+		where close_date = #{closeDate}
+	</delete>
 
 </mapper>
