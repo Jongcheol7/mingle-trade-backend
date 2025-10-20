@@ -29,6 +29,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
 		String name = (String) attributes.get("name");
 		String picture = (String) attributes.get("picture");
 		
+		System.out.println("DB저장전 email, name, picture : " + email + name + picture);
+		
 		//DB에 존재하는지 확인
 		Map<String, Object> existingUser = userMapper.findByEmail(email);
 		if(existingUser == null) {

@@ -5,7 +5,7 @@ spring:
     username: postgres
     password: postgres
 
-  security: # 👈 spring 아래로 내려와야 함
+  security:
     oauth2:
       client:
         registration:
@@ -22,6 +22,9 @@ spring:
             token-uri: https://oauth2.googleapis.com/token
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
             user-name-attribute: sub
+
+  config:
+    import: optional:file:.env[.properties]
 
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
