@@ -8,8 +8,14 @@
 	</select>
 
 	<insert id="insertUser" parameterType="map">
-		INSERT INTO USERS (EMAIL, NAME, PICTURE, PROVIDER)
-		VALUES (#{email}, #{name}, #{picture}, #{provider})
+		INSERT INTO USERS (EMAIL, NAME, PICTURE, PROVIDER, NICKNAME, PROFILE_IMAGE)
+		VALUES (#{email}, #{name}, #{picture}, #{provider}, #{nickname}, #{profileImage})
 	</insert>
+	
+	<update id="updateNickname"  parameterType="com.mingletrade.mingletrade.domain.User">
+		UPDATE USERS 
+		SET	NICKNAME = #{nickname} 
+		WHERE EMAIL = #{email} 				
+	</update>
 
 </mapper>

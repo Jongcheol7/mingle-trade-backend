@@ -40,6 +40,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
 			user.put("name", name);
 			user.put("picture", picture);
 			user.put("provider", "google");
+			user.put("nickname", name);
+			user.put("profileImage", picture);
 			
 			System.out.println("등록할 유저 정보 : " + user.toString());
 			

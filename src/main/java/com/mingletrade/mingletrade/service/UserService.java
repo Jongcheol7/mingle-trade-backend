@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.mingletrade.mingletrade.domain.User;
 import com.mingletrade.mingletrade.mapper.UserMapper;
 
 @Service
@@ -18,5 +19,9 @@ public class UserService {
 	
 	public Map<String, Object> selectUser(String email){
 		return userMapper.findByEmail(email);
+	}
+	
+	public void updateNickname(User user) {
+		userMapper.updateNickname(user);
 	}
 }

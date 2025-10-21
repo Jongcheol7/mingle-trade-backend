@@ -40,7 +40,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 		Map<String, Object> userInfo = userService.selectUser(email);
 		
 		System.out.println("토큰 생성전 userInfo : " + userInfo.toString());
-		
+		String profileImage = (String) userInfo.get("profile_image");
 		//JWT 토큰 생성
 		String token = jwtUtil.generateToken(
 				(String) userInfo.get("email"),
@@ -48,7 +48,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 				(String) userInfo.get("picture"),
 				(String) userInfo.get("provider"),
 				(String) userInfo.get("nickname"),
-				(String) userInfo.get("profileImage")
+				profileImage
 		);
 		
 		//프론트로 토큰 전달(쿼리스트링)
