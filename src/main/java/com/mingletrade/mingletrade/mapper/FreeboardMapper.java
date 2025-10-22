@@ -16,4 +16,6 @@ public interface FreeboardMapper {
 							           @Param("limit") int limit);
 	
 	int selectTotalCount();
+	
+	Freeboard selectOneById(@Param("id") int id);
 } 

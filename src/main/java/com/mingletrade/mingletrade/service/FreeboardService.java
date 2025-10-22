@@ -38,4 +38,8 @@ public class FreeboardService {
 		result.put("total", total);
 		return result;
 	}
+	
+	public Freeboard selectOneById(int id) {
+		return mapper.selectOneById(id);
+	}
 }
