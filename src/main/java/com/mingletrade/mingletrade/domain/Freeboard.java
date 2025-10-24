@@ -7,17 +7,19 @@ public class Freeboard {
 	private int id;
 	private String title;
 	private String writer;
+	private String email;
 	private String content;
 	private LocalDateTime createdAt;
 	private LocalDateTime deletedAt;
 	private int views;
 	
-	public Freeboard(int id, String title, String writer, String content, LocalDateTime createdAt,
+	public Freeboard(int id, String title, String writer, String email, String content, LocalDateTime createdAt,
 			LocalDateTime deletedAt, int views) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.writer = writer;
+		this.email = email;
 		this.content = content;
 		this.createdAt = createdAt;
 		this.deletedAt = deletedAt;
@@ -79,11 +81,21 @@ public class Freeboard {
 	public void setViews(int views) {
 		this.views = views;
 	}
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {
-		return "Freeboard [id=" + id + ", title=" + title + ", writer=" + writer + ", content=" + content
-				+ ", createdAt=" + createdAt + ", deletedAt=" + deletedAt + ", views=" + views + "]";
+		return "Freeboard [id=" + id + ", title=" + title + ", writer=" + writer + ", email=" + email + ", content="
+				+ content + ", createdAt=" + createdAt + ", deletedAt=" + deletedAt + ", views=" + views + "]";
 	}
+
 	
 }

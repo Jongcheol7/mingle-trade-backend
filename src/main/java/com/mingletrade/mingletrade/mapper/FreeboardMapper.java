@@ -21,5 +21,9 @@ public interface FreeboardMapper {
 	
 	void updateFreeboard(Freeboard fb);
 	
-	int tempViewsUp(@Param("boardId") int boardId);
+	int findViewInFiveMins(@Param("id") int boardId, @Param("email") String email);
+	
+	void viewTableUp(@Param("id") int boardId, @Param("email") String email);
+	
+	void boardViewUpdate(@Param("id") int boardId);
 } 

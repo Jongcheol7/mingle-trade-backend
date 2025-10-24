@@ -45,8 +45,15 @@ public class FreeboardService {
 	}
 	
 	@Transactional 
-	public int tempViewsUp(int boardId) {
-		return mapper.tempViewsUp(boardId);
+	public void viewUp(int boardId, String email) {
+		
+		int viewCnt = mapper.findViewInFiveMins(boardId, email);
+		if(viewCnt > 0) {
+			System.out.println("이미 5분이내에 조회했습니다.");
+		}else {
+			mapper.viewTableUp(boardId, email);
+			mapper.boardViewUpdate(boardId);
+		}
 	}
 	
 	public Freeboard selectOneById(int id) {

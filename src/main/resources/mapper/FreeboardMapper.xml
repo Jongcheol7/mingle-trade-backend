@@ -5,8 +5,8 @@
 
 
 	<insert id="insertFreeboard" parameterType="com.mingletrade.mingletrade.domain.Freeboard">
-		INSERT INTO freeboard (title, writer, content)
-		VALUES (#{title}, #{writer}, #{content})
+		INSERT INTO freeboard (title, writer, content, email)
+		VALUES (#{title}, #{writer}, #{content}, #{email})
 	</insert>
 	
 	<select id="selectAllFreeboard" resultType="com.mingletrade.mingletrade.domain.Freeboard">
@@ -14,6 +14,7 @@
 	    id, 
 	    title, 
 	    writer, 
+	    email,
 	    content, 
 	    created_at AS createdAt, 
 	    deleted_at AS deletedAt, 
@@ -35,6 +36,7 @@
 			   title, 
 			   writer, 
 			   content, 
+			   email,
 			   created_at AS createdAt, 
 			   deleted_at AS deletedAt, 
 			   views
@@ -42,23 +44,33 @@
 	</select>
 	
 	<update id="updateFreeboard">
-		UPDATE freeboard 
+		UPDATE FREEBOARD 
 		SET TITLE = #{title},
 		    CONTENT = #{content}
 		WHERE ID = #{id}
 	</update>
 	
-	<update id="realViewsUp">
-		UPDATE freeboard 
-		SET VIEWS = #{views}
+	<select id="findViewInFiveMins" resultType="int">
+		select COUNT(*)  
+		from FREEBOARD_VIEW 
+		where user_email = #{email} 
+		and freeboard_id = #{id}
+		and extract(minute FROM NOW()-CREATED_AT) <![CDATA[<=]]> 5
+	</select>
+	
+	<insert id="viewTableUp">
+		INSERT INTO FREEBOARD_VIEW (FREEBOARD_ID, USER_EMAIL) 
+		VALUES(#{id}, #{email})
+	</insert>
+	
+	
+	<update id="boardViewUpdate">
+		UPDATE FREEBOARD 
+		SET VIEWS = VIEWS + 1
 		WHERE ID = #{id}
 	</update>
 	
-	<insert id="tempViewsUp">
-		INSERT INTO freeboardView (FREEBOARD_ID) 
-		VALUES(#{boardId})
-	</insert>
-
+	
 	
 
 </mapper>

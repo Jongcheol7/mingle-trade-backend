@@ -56,9 +56,11 @@ public class FreeboardController {
 	}
 	
 	@PostMapping("/viewUp")
-	public int tempViewsUp(@RequestBody Map<String, Object> param) {
+	public String viewUp(@RequestBody Map<String, Object> param) {
 		System.out.println("tempViewsUp받은 데이터 : " + param);
-		int boardId = (int) (param.get("boardId"));
-		return service.tempViewsUp(boardId);
+		int boardId = (int) param.get("boardId");
+		String email = (String) param.get("email");
+		service.viewUp(boardId, email);
+		return "success";
 	}
 }
