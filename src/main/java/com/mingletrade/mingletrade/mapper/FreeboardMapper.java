@@ -18,4 +18,8 @@ public interface FreeboardMapper {
 	int selectTotalCount();
 	
 	Freeboard selectOneById(@Param("id") int id);
+	
+	void updateFreeboard(Freeboard fb);
+	
+	int tempViewsUp(@Param("boardId") int boardId);
 } 

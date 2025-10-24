@@ -39,6 +39,16 @@ public class FreeboardService {
 		return result;
 	}
 	
+	@Transactional
+	public void update(Freeboard fb) {
+		mapper.updateFreeboard(fb);
+	}
+	
+	@Transactional 
+	public int tempViewsUp(int boardId) {
+		return mapper.tempViewsUp(boardId);
+	}
+	
 	public Freeboard selectOneById(int id) {
 		return mapper.selectOneById(id);
 	}

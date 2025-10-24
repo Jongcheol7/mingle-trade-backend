@@ -40,6 +40,24 @@
 			   views
 		FROM freeboard WHERE id = #{id}
 	</select>
+	
+	<update id="updateFreeboard">
+		UPDATE freeboard 
+		SET TITLE = #{title},
+		    CONTENT = #{content}
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="realViewsUp">
+		UPDATE freeboard 
+		SET VIEWS = #{views}
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="tempViewsUp">
+		INSERT INTO freeboardView (FREEBOARD_ID) 
+		VALUES(#{boardId})
+	</insert>
 
 	
 
