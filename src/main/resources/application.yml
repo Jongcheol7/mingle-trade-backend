@@ -26,6 +26,15 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
+
+aws:
+  s3:
+    bucket: ${S3_BUCKET}
+  region: ${AWS_REGION}
+  access-key: ${AWS_ACCESS_KEY_ID}
+  secret-key: ${AWS_SECRET_ACCESS_KEY}
+
+
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   type-aliases-package: com.mingletrade.mingletrade

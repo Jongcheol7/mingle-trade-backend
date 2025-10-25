@@ -15,4 +15,6 @@ public interface UserMapper {
 	
 	void updateNickname(User user);
 	
+	void updateProfileImage(String email, String profileImage);
+	
 }

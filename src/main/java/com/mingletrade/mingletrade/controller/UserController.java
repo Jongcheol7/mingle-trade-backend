@@ -1,5 +1,7 @@
 package com.mingletrade.mingletrade.controller;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,14 @@ public class UserController {
 	public String updateNickname(@RequestBody User user) {
 		System.out.println("받은 데이터 : " + user);
 		userService.updateNickname(user);
+		return "success";
+	}
+	
+	@PostMapping("/update/profileImage")
+	public String updateProfileImage(@RequestBody Map<String, Object> param) {
+		String email = (String) param.get("email");
+		String imageUrl = (String) param.get("imageUrl");
+		userService.updateProfileImage(email, imageUrl);
 		return "success";
 	}
 }
