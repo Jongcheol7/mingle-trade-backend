@@ -38,8 +38,10 @@ public class JwtUtil {
 							.claim("provider", provider)
 							.claim("nickname", nickname)
 							.claim("profileImage", profileImage)
-							.setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-							.signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
+							.setIssuedAt(new Date())
+							.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+							.signWith(getSigningKey(), SignatureAlgorithm.HS256)
+							.compact();
 	}
 
 	// JWT 검증
