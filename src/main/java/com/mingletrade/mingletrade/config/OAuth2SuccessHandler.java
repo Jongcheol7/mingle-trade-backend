@@ -69,7 +69,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 		
 		//프론트로 토큰 전달(쿼리스트링)
 		//String redirectUrl = "http://localhost:3000?token=" + token;
-		response.sendRedirect("http://localhost:3000");
+		response.sendRedirect("http://localhost:3000?tryLogin=true");
 	}
 	
 }

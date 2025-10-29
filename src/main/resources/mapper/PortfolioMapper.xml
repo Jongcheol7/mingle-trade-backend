@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mingletrade.mingletrade.mapper.PortfolioMapper">
+
+
+	<insert id="insertPortfolio" parameterType="com.mingletrade.mingletrade.domain.Portfolio">
+		INSERT INTO PORTFOLIO (EMAIL, SYMBOL, ENTER_PRICE, CURRENCY, QUANTITY)
+		VALUES (#{email}, #{symbol}, #{enterPrice}, #{currency}, #{quantity})
+	</insert>
+	
+	<select id="selectByEmail" resultType="com.mingletrade.mingletrade.domain.Portfolio">
+		SELECT ID, EMAIL, SYMBOL,
+		       ENTER_PRICE, CURRENCY, QUANTITY 
+		FROM PORTFOLIO 
+		WHERE EMAIL = #{email}
+	</select>
+
+</mapper>
