@@ -20,4 +20,8 @@ public class PortfolioService {
 	public List<Portfolio> selectByEmail(String email) {
 		return mapper.selectByEmail(email);
 	}
+	
+	public void deleteOneByEmail(int id, String email) {
+		mapper.deleteOneByEmail(id, email);
+	}
 }

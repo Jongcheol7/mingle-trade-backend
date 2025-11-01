@@ -15,5 +15,11 @@
 		FROM PORTFOLIO 
 		WHERE EMAIL = #{email}
 	</select>
+	
+	<delete id="deleteOneByEmail">
+		DELETE FROM PORTFOLIO 
+		WHERE EMAIL = #{email} 
+		AND ID = #{id}
+	</delete>
 
 </mapper>

@@ -11,4 +11,6 @@ import com.mingletrade.mingletrade.domain.Portfolio;
 public interface PortfolioMapper {
 
 	List<Portfolio> selectByEmail(String email);
+	
+	void deleteOneByEmail(int id, String email);
 }
