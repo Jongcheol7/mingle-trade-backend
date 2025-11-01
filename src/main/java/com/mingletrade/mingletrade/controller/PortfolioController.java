@@ -60,7 +60,22 @@ public class PortfolioController {
 			result.put("message", e.getMessage());
 			return ResponseEntity.status(500).body(result);
 		}
-		
-		
 	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<Map<String, Object>> updatePortfolio(@RequestBody Portfolio portfolio){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			System.out.println("updatePortfolio 받은 내용 : " + portfolio);
+			service.updatePortfolio(portfolio);
+			result.put("status", "success");
+			result.put("message", "수정 완료");
+			return ResponseEntity.ok(result);
+		}catch (Exception e) {
+			result.put("status", "fail");
+			result.put("message", e.getMessage());
+			return ResponseEntity.status(500).body(result);
+		}
+	}
+	
 }

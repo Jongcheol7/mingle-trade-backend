@@ -13,4 +13,6 @@ public interface PortfolioMapper {
 	List<Portfolio> selectByEmail(String email);
 	
 	void deleteOneByEmail(int id, String email);
+	
+	void updatePortfolio(Portfolio portfolio);
 }

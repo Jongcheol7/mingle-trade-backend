@@ -24,4 +24,8 @@ public class PortfolioService {
 	public void deleteOneByEmail(int id, String email) {
 		mapper.deleteOneByEmail(id, email);
 	}
+	
+	public void updatePortfolio(Portfolio portfolio) {
+		mapper.updatePortfolio(portfolio);
+	}
 }

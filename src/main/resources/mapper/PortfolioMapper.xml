@@ -21,5 +21,13 @@
 		WHERE EMAIL = #{email} 
 		AND ID = #{id}
 	</delete>
+	
+	<update id="updatePortfolio" parameterType="com.mingletrade.mingletrade.domain.Portfolio">
+		UPDATE PORTFOLIO 
+		   SET ENTER_PRICE = #{enterPrice},
+		       QUANTITY = #{quantity} 
+		 WHERE EMAIL = #{email} 
+		   AND SYMBOL = #{symbol}
+	</update>
 
 </mapper>
