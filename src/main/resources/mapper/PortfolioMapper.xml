@@ -14,6 +14,7 @@
 		       ENTER_PRICE, CURRENCY, QUANTITY 
 		FROM PORTFOLIO 
 		WHERE EMAIL = #{email}
+		AND CURRENCY = #{currency}
 	</select>
 	
 	<delete id="deleteOneByEmail">
@@ -28,6 +29,7 @@
 		       QUANTITY = #{quantity} 
 		 WHERE EMAIL = #{email} 
 		   AND SYMBOL = #{symbol}
+		   AND CURRENCY = #{currency}
 	</update>
 
 </mapper>

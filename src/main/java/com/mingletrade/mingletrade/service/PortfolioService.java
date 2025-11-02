@@ -17,8 +17,8 @@ public class PortfolioService {
 		this.mapper = mapper;
 	}
 
-	public List<Portfolio> selectByEmail(String email) {
-		return mapper.selectByEmail(email);
+	public List<Portfolio> selectByEmail(String email, String currency) {
+		return mapper.selectByEmail(email, currency);
 	}
 	
 	public void deleteOneByEmail(int id, String email) {
@@ -27,5 +27,9 @@ public class PortfolioService {
 	
 	public void updatePortfolio(Portfolio portfolio) {
 		mapper.updatePortfolio(portfolio);
+	}
+	
+	public void insertPortfolio(Portfolio portfolio) {
+		mapper.insertPortfolio(portfolio);
 	}
 }

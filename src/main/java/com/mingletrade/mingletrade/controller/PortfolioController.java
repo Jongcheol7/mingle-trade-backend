@@ -27,11 +27,12 @@ public class PortfolioController {
 	}
 	
 	@GetMapping("/select")
-	public ResponseEntity<Map<String, Object>> selectByEmail(@RequestParam String email) {
+	public ResponseEntity<Map<String, Object>> selectByEmail(@RequestParam String email, @RequestParam String currency) {
 		Map<String,Object> result = new HashMap<String, Object>();
 		try {
 			System.out.println("selectByEmail 받은 내용 : " + email);
-			List<Portfolio> list = service.selectByEmail(email);
+			System.out.println("selectByEmail 받은 내용 : " + currency);
+			List<Portfolio> list = service.selectByEmail(email, currency);
 			result.put("status", "success");
 			result.put("data", list);
 			return ResponseEntity.ok(result);
@@ -72,6 +73,32 @@ public class PortfolioController {
 			result.put("message", "수정 완료");
 			return ResponseEntity.ok(result);
 		}catch (Exception e) {
+			result.put("status", "fail");
+			result.put("message", e.getMessage());
+			return ResponseEntity.status(500).body(result);
+		}
+	}
+	
+	@PostMapping("/insert")
+	public ResponseEntity<Map<String, Object>> insertPortfolio(@RequestBody Portfolio portfolio){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			System.out.println("insertPortfolio 받은 내용 : " + portfolio);
+			
+			List<Portfolio> list = service.selectByEmail(portfolio.getEmail(), portfolio.getCurrency());
+			for(int i=0; i<list.size(); i++) {
+				if(list.get(i).getSymbol().equals(portfolio.getSymbol())) {
+					result.put("status", "fail");
+					result.put("message", "이미 등록된 코인입니다.");
+					return ResponseEntity.status(500).body(result);
+				}
+			}
+			
+			service.insertPortfolio(portfolio);
+			result.put("status", "success");
+			result.put("message", "추가 완료");
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
 			result.put("status", "fail");
 			result.put("message", e.getMessage());
 			return ResponseEntity.status(500).body(result);
