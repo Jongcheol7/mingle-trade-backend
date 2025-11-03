@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mingletrade.mingletrade.mapper.ChatMapper">
+
+
+	<select id="selectChatList">
+		SELECT A.ID, A.ROOM_NAME, A.IS_DIRECT, A.CREATED_AT
+		FROM CHAT_ROOM A JOIN CHAT_MEMBER B 
+		ON A.ID = B.ROOM_ID 
+		WHERE B.EMAIL = #{email}
+	</select>
+	
+
+</mapper>
