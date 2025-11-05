@@ -31,7 +31,7 @@ public class FreeboardService {
 	public Map<String, Object> selectAllFreeboard(int start, int limit ) {
 		System.out.println("service start : " + start);
 		int total = mapper.selectTotalCount();
-		List<Freeboard> lists = mapper.selectAllFreeboard(start, limit); 
+		List<Map<String, Object>> lists = mapper.selectAllFreeboard(start, limit); 
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("lists", lists);

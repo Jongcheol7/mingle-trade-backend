@@ -1,6 +1,7 @@
 package com.mingletrade.mingletrade.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +13,7 @@ public interface FreeboardMapper {
 	
 	int insertFreeboard(Freeboard fb);
 	
-	List<Freeboard> selectAllFreeboard(@Param("start") int start, 
+	List<Map<String, Object>> selectAllFreeboard(@Param("start") int start, 
 							           @Param("limit") int limit);
 	
 	int selectTotalCount();

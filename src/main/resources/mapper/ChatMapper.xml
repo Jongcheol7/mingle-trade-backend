@@ -11,5 +11,45 @@
 		WHERE B.EMAIL = #{email}
 	</select>
 	
+	<select id="selectDirectMessageContent">
+		WITH temp AS (
+		    SELECT ROOM_ID, EMAIL
+		    FROM CHAT_MEMBER
+		    WHERE EMAIL IN (#{senderEmail}, #{receiverEmail})
+		),
+		ROOM_INFO AS (
+		    SELECT A.ROOM_ID
+		    FROM temp A
+		    JOIN CHAT_ROOM B ON A.ROOM_ID = B.ID
+		    WHERE B.IS_DIRECT = TRUE
+		    GROUP BY A.ROOM_ID
+		    HAVING COUNT(DISTINCT A.EMAIL) = 2
+		)
+		SELECT 
+		    B.*
+		FROM CHAT_MESSAGE B
+		JOIN ROOM_INFO A ON B.ROOM_ID = A.ROOM_ID
+		<if test="cursor != null">
+        WHERE ID &lt; #{cursor}
+    	</if>
+		ORDER BY B.CREATED_AT ASC
+		LIMIT #{limit}
+	</select>
+	
+	<select id="createRoomId">
+		SELECT NEXTVAL('SEQ_CHAT_ROOM') AS ROOM_ID
+	</select>
+	
+	<insert id="insertDirectChatRoom">
+		INSERT INTO CHAT_ROOM (ID, ROOM_NAME, IS_DIRECT, ROOM_IMAGE) 
+		VALUES (#{roomId}, #{receiverEmail}, true, #{receiverUrl})
+	</insert>
+	
+	<insert id="insertDirectChatMember">
+		INSERT INTO CHAT_MEMBER (ROOM_ID, EMAIL) 
+		VALUES (#{roomId}, #{email})
+	</insert>
+	
+	
 
 </mapper>

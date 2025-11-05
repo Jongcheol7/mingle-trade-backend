@@ -28,4 +28,18 @@ public class ChatService {
 		return mapper.selectChatList(email);
 	};
 	
+	public List<Map<String, Object>> selectDirectMessageContent(String senderEmail, String receiverEmail, Long cursor, int limit){
+		return mapper.selectDirectMessageContent(senderEmail, receiverEmail, cursor, limit);
+	}
+	
+	public Map<String, Object> createDirectChatRoom(String senderEmail, String receiverEmail, String receiverUrl){
+		Map<String, Object> tmpRoomId = mapper.createRoomId();
+		Long roomId = (Long) tmpRoomId.get("ROOM_ID");
+		
+		mapper.insertDirectChatRoom(roomId, receiverEmail, receiverUrl);
+		mapper.insertDirectChatMember(roomId, senderEmail);
+		mapper.insertDirectChatMember(roomId, receiverEmail);
+		return tmpRoomId;
+	}
+	
 }

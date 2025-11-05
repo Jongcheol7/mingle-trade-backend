@@ -9,19 +9,21 @@
 		VALUES (#{title}, #{writer}, #{content}, #{email})
 	</insert>
 	
-	<select id="selectAllFreeboard" resultType="com.mingletrade.mingletrade.domain.Freeboard">
+	<select id="selectAllFreeboard">
 	  SELECT 
-	    id, 
-	    title, 
-	    writer, 
-	    email,
-	    content, 
-	    created_at AS createdAt, 
-	    deleted_at AS deletedAt, 
+	    F.ID, 
+	    F.TITLE, 
+	    U.NICKNAME, 
+	    U.PROFILE_IMAGE,
+	    U.EMAIL,
+	    F.CONTENT, 
+	    F.CREATED_AT, 
+	    F.DELETED_AT, 
 	    views
-	  FROM freeboard
-	  WHERE deleted_at IS NULL
-	  ORDER BY id DESC
+	  FROM FREEBOARD F JOIN USERS U 
+	  ON F.EMAIL = U.EMAIL
+	  WHERE DELETED_AT IS NULL
+	  ORDER BY F.ID DESC
 	  LIMIT #{limit} OFFSET #{start}
 	</select>
 
