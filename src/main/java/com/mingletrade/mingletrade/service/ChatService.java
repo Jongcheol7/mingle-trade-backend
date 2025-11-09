@@ -28,13 +28,14 @@ public class ChatService {
 		return mapper.selectChatList(email);
 	};
 	
-	public List<Map<String, Object>> selectDirectMessageContent(String senderEmail, String receiverEmail, Long cursor, int limit){
-		return mapper.selectDirectMessageContent(senderEmail, receiverEmail, cursor, limit);
+	public List<Map<String, Object>> selectDirectMessageContent(Long roomId, String senderEmail, String receiverEmail, Long cursor, int limit){
+		return mapper.selectDirectMessageContent(roomId, senderEmail, receiverEmail, cursor, limit);
 	}
 	
 	public Map<String, Object> createDirectChatRoom(String senderEmail, String receiverEmail, String receiverUrl){
 		Map<String, Object> tmpRoomId = mapper.createRoomId();
-		Long roomId = (Long) tmpRoomId.get("ROOM_ID");
+		System.out.println("tmpRoomId : " + tmpRoomId);
+		Long roomId = (Long) tmpRoomId.get("room_id");
 		
 		mapper.insertDirectChatRoom(roomId, receiverEmail, receiverUrl);
 		mapper.insertDirectChatMember(roomId, senderEmail);
@@ -42,4 +43,13 @@ public class ChatService {
 		return tmpRoomId;
 	}
 	
+	
+	public Long selectDirectChatRoom(String senderEmail, String receiverEmail) {
+		Long roomId = mapper.selectDirectChatRoom(senderEmail, receiverEmail);
+	    return roomId == null ? 0L : roomId;
+	}
+	
+	public void saveDirectChatMessage(Long roomId, String senderEmail, String content) {
+		mapper.insertDirectChatMessage(roomId, senderEmail, content);
+	}
 }

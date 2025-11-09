@@ -13,7 +13,7 @@ public interface ChatMapper {
 
 	List<Map<String, Object>> selectChatList(String email);
 	
-	List<Map<String, Object>> selectDirectMessageContent(String senderEmail, String receiverEmail, Long cursor, int limit);
+	List<Map<String, Object>> selectDirectMessageContent(Long roomId, String senderEmail, String receiverEmail, Long cursor, int limit);
 	
 	Map<String, Object> createRoomId();
 	
@@ -23,4 +23,7 @@ public interface ChatMapper {
 	
 	void insertDirectChatMember(Long roomId, String email);
 	
+	Long selectDirectChatRoom(String senderEmail, String receiverEmail);
+	
+	void insertDirectChatMessage(Long roomId, String senderEmail, String content);
 }

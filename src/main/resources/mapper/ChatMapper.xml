@@ -11,28 +11,30 @@
 		WHERE B.EMAIL = #{email}
 	</select>
 	
-	<select id="selectDirectMessageContent">
+	<select id="selectDirectChatRoom">
 		WITH temp AS (
 		    SELECT ROOM_ID, EMAIL
 		    FROM CHAT_MEMBER
 		    WHERE EMAIL IN (#{senderEmail}, #{receiverEmail})
-		),
-		ROOM_INFO AS (
-		    SELECT A.ROOM_ID
-		    FROM temp A
-		    JOIN CHAT_ROOM B ON A.ROOM_ID = B.ID
-		    WHERE B.IS_DIRECT = TRUE
-		    GROUP BY A.ROOM_ID
-		    HAVING COUNT(DISTINCT A.EMAIL) = 2
 		)
+		SELECT ROOM_ID
+		FROM temp A join CHAT_ROOM B 
+		on A.ROOM_ID = B.ID
+		where B.is_direct = TRUE
+		GROUP BY ROOM_ID
+		HAVING COUNT(DISTINCT EMAIL) = 2
+	</select>
+	
+	<select id="selectDirectMessageContent" resultType="com.mingletrade.mingletrade.domain.Chat">
 		SELECT 
-		    B.*
-		FROM CHAT_MESSAGE B
-		JOIN ROOM_INFO A ON B.ROOM_ID = A.ROOM_ID
+		    ID, ROOM_ID, SENDER_EMAIL, CREATED_AT, CONTENT
+		FROM CHAT_MESSAGE
+		WHERE 1=1 
+		AND ROOM_ID = #{roomId}
 		<if test="cursor != null">
-        WHERE ID &lt; #{cursor}
+        AND ID &lt; #{cursor}
     	</if>
-		ORDER BY B.CREATED_AT ASC
+		ORDER BY CREATED_AT DESC
 		LIMIT #{limit}
 	</select>
 	
@@ -50,6 +52,10 @@
 		VALUES (#{roomId}, #{email})
 	</insert>
 	
+	<insert id="insertDirectChatMessage">
+		INSERT INTO CHAT_MESSAGE (ROOM_ID, SENDER_EMAIL, CONTENT) 
+		VALUES (#{roomId}, #{senderEmail}, #{content})
+	</insert>
 	
 
 </mapper>
