@@ -7,7 +7,7 @@ public class Chat {
     private Long roomId;
     private String senderEmail;
     private LocalDateTime createdAt;
-    private String content;
+    private String message;
     
 	public Long getId() {
 		return id;
@@ -33,11 +33,16 @@ public class Chat {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	public String getContent() {
-		return content;
+	public String getMessage() {
+		return message;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	@Override
+	public String toString() {
+		return "Chat [id=" + id + ", roomId=" + roomId + ", senderEmail=" + senderEmail + ", createdAt=" + createdAt
+				+ ", message=" + message + "]";
 	}
     
     

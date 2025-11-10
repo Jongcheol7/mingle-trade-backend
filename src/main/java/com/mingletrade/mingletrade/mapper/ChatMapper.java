@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.mingletrade.mingletrade.domain.Chat;
 import com.mingletrade.mingletrade.domain.User;
 
 @Mapper
@@ -13,7 +14,7 @@ public interface ChatMapper {
 
 	List<Map<String, Object>> selectChatList(String email);
 	
-	List<Map<String, Object>> selectDirectMessageContent(Long roomId, String senderEmail, String receiverEmail, Long cursor, int limit);
+	List<Chat> selectDirectMessageContent(Long roomId, String senderEmail, String receiverEmail, Long cursor, int limit);
 	
 	Map<String, Object> createRoomId();
 	
@@ -25,5 +26,7 @@ public interface ChatMapper {
 	
 	Long selectDirectChatRoom(String senderEmail, String receiverEmail);
 	
-	void insertDirectChatMessage(Long roomId, String senderEmail, String content);
+	void insertDirectChatMessage(Long roomId, String senderEmail, String message);
+	
+	List<Map<String, Object>> selectDirectChatMember(Long roomId);
 }

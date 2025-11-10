@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mingletrade.mingletrade.domain.Chat;
 import com.mingletrade.mingletrade.domain.Freeboard;
 import com.mingletrade.mingletrade.domain.PrevClosingPrice;
 import com.mingletrade.mingletrade.mapper.ChatMapper;
@@ -28,7 +29,7 @@ public class ChatService {
 		return mapper.selectChatList(email);
 	};
 	
-	public List<Map<String, Object>> selectDirectMessageContent(Long roomId, String senderEmail, String receiverEmail, Long cursor, int limit){
+	public List<Chat> selectDirectMessageContent(Long roomId, String senderEmail, String receiverEmail, Long cursor, int limit){
 		return mapper.selectDirectMessageContent(roomId, senderEmail, receiverEmail, cursor, limit);
 	}
 	
@@ -49,7 +50,11 @@ public class ChatService {
 	    return roomId == null ? 0L : roomId;
 	}
 	
-	public void saveDirectChatMessage(Long roomId, String senderEmail, String content) {
-		mapper.insertDirectChatMessage(roomId, senderEmail, content);
+	public void saveDirectChatMessage(Long roomId, String senderEmail, String message) {
+		mapper.insertDirectChatMessage(roomId, senderEmail, message);
+	}
+	
+	public List<Map<String, Object>> selectDirectChatMember(Long roomId){
+		return mapper.selectDirectChatMember(roomId);
 	}
 }

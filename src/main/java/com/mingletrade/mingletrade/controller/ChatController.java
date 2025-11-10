@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mingletrade.mingletrade.domain.Chat;
 import com.mingletrade.mingletrade.service.ChatService;
 
 @RestController
@@ -72,15 +73,26 @@ public class ChatController {
 													@RequestParam String receiverEmail, 
 													@RequestParam(required = false) Long cursor, // 마지막으로 본 messageId
 													@RequestParam(defaultValue = "20") int limit){
-		System.out.println("selectDirectMessageContent 받은 내용 : " + senderEmail + receiverEmail + cursor + limit);
+		System.out.println("selectDirectMessageContent 받은 내용 : " + roomId +  senderEmail + receiverEmail + cursor + limit);
+
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			if(roomId != 0) {
+			if(roomId != 0 && !senderEmail.equals("") && !receiverEmail.equals("")) {
 				roomId = chatService.selectDirectChatRoom(senderEmail, receiverEmail);
 				System.out.println("roomId : " + roomId);
 			}
-			List<Map<String, Object>> messages = chatService.selectDirectMessageContent(roomId, senderEmail, receiverEmail, cursor, limit);
+			if(senderEmail.equals("") && receiverEmail.equals("")) {
+				List<Map<String, Object>> test = chatService.selectDirectChatMember(roomId);
+				result.put("member", test);
+				
+			}
+			List<Chat> messages = chatService.selectDirectMessageContent(roomId, senderEmail, receiverEmail, cursor, limit);
+			Long nextCursor = null;
+			if (!messages.isEmpty() && messages.size() >= limit) {
+			    nextCursor = messages.get(messages.size() - 1).getId();
+			}
 			result.put("data", messages);
+			result.put("nextCursor", nextCursor);
 			result.put("status", "success");
 			result.put("roomId", roomId);
 			return ResponseEntity.ok(result);
@@ -90,6 +102,30 @@ public class ChatController {
 			return ResponseEntity.status(500).body(result);
 		}
 	}
+	
+//	@GetMapping("/findDirectMessagesByRoomId")
+//	public ResponseEntity<Map<String, Object>> findDirectMessagesByRoomId(
+//					@RequestParam Long roomId,
+//					@RequestParam(required = false) Long cursor, // 마지막으로 본 messageId
+//					@RequestParam(defaultValue = "20") int limit){
+//		System.out.println("selectDirectMessageContent 받은 내용 : " + roomId + cursor + limit);
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		try {
+//		if(roomId != 0) {
+//		roomId = chatService.selectDirectChatRoom(senderEmail, receiverEmail);
+//		System.out.println("roomId : " + roomId);
+//		}
+//		List<Map<String, Object>> messages = chatService.selectDirectMessageContent(roomId, senderEmail, receiverEmail, cursor, limit);
+//		result.put("data", messages);
+//		result.put("status", "success");
+//		result.put("roomId", roomId);
+//		return ResponseEntity.ok(result);
+//		} catch (Exception e) {
+//		result.put("status", "fail");
+//		result.put("message", e.getMessage());
+//		return ResponseEntity.status(500).body(result);
+//		}
+//	}
 	
 	@PostMapping("/makeChatRoom")
 	public ResponseEntity<Map<String, Object>> createDirectChatRoom(@RequestBody Map<String,Object> param){
@@ -126,10 +162,8 @@ public class ChatController {
 		try {
 			Long roomId = ((Number) param.get("roomId")).longValue();
 			String senderEmail = (String) param.get("senderEmail");
-			String content = (String) param.get("content");
-			System.out.println("111111111");
-			chatService.saveDirectChatMessage(roomId, senderEmail, content);
-			System.out.println("2222222222");
+			String message = (String) param.get("message");
+			chatService.saveDirectChatMessage(roomId, senderEmail, message);
 			result.put("status", "success");
 			result.put("data", "메세지 저장완료");
 			return ResponseEntity.ok(result);

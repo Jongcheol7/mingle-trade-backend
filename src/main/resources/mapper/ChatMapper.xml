@@ -5,10 +5,34 @@
 
 
 	<select id="selectChatList">
-		SELECT A.ID, A.ROOM_NAME, A.IS_DIRECT, A.CREATED_AT
-		FROM CHAT_ROOM A JOIN CHAT_MEMBER B 
-		ON A.ID = B.ROOM_ID 
+		SELECT A.ID, 
+			   case when ROOM_NAME is null 
+			        then (select U.nickname  
+			              from chat_member C join USERS U 
+			              on C.EMAIL = U.EMAIL
+			              where C.room_id  = A.ID
+			              and C.EMAIL <![CDATA[<>]]> #{email}
+			     		 )
+			     	else ROOM_NAME end as ROOM_NAME, 
+		       A.IS_DIRECT, A.CREATED_AT, A.ROOM_IMAGE,
+		       (
+			        SELECT M.message
+			        FROM chat_message M
+			        WHERE M.room_id = A.ID
+			        ORDER BY M.created_at DESC
+			        LIMIT 1
+			    ) AS LAST_MESSAGE,
+			    (
+			        SELECT M.created_at
+			        FROM chat_message M
+			        WHERE M.room_id = A.ID
+			        ORDER BY M.created_at DESC
+			        LIMIT 1
+			    ) AS LAST_MESSAGE_AT
+		FROM CHAT_ROOM A 
+		JOIN CHAT_MEMBER B ON A.ID = B.ROOM_ID
 		WHERE B.EMAIL = #{email}
+		ORDER BY A.CREATED_AT DESC
 	</select>
 	
 	<select id="selectDirectChatRoom">
@@ -25,14 +49,25 @@
 		HAVING COUNT(DISTINCT EMAIL) = 2
 	</select>
 	
+	<select id="selectDirectChatMember">
+		SELECT ROOM_ID, A.EMAIL, B.PROFILE_IMAGE, B.NICKNAME
+		FROM CHAT_MEMBER A JOIN USERS B 
+		ON A.EMAIL = B.EMAIL 
+		WHERE ROOM_ID = #{roomId}
+	</select>
+	
 	<select id="selectDirectMessageContent" resultType="com.mingletrade.mingletrade.domain.Chat">
 		SELECT 
-		    ID, ROOM_ID, SENDER_EMAIL, CREATED_AT, CONTENT
+		    ID          AS id,
+		    ROOM_ID     AS roomId,
+		    SENDER_EMAIL AS senderEmail,
+		    CREATED_AT  AS createdAt,
+		    MESSAGE     AS message
 		FROM CHAT_MESSAGE
 		WHERE 1=1 
 		AND ROOM_ID = #{roomId}
 		<if test="cursor != null">
-        AND ID &lt; #{cursor}
+        AND ID <![CDATA[<]]> #{cursor}
     	</if>
 		ORDER BY CREATED_AT DESC
 		LIMIT #{limit}
@@ -43,8 +78,8 @@
 	</select>
 	
 	<insert id="insertDirectChatRoom">
-		INSERT INTO CHAT_ROOM (ID, ROOM_NAME, IS_DIRECT, ROOM_IMAGE) 
-		VALUES (#{roomId}, #{receiverEmail}, true, #{receiverUrl})
+		INSERT INTO CHAT_ROOM (ID, IS_DIRECT, ROOM_IMAGE) 
+		VALUES (#{roomId}, true, #{receiverUrl})
 	</insert>
 	
 	<insert id="insertDirectChatMember">
@@ -53,8 +88,8 @@
 	</insert>
 	
 	<insert id="insertDirectChatMessage">
-		INSERT INTO CHAT_MESSAGE (ROOM_ID, SENDER_EMAIL, CONTENT) 
-		VALUES (#{roomId}, #{senderEmail}, #{content})
+		INSERT INTO CHAT_MESSAGE (ROOM_ID, SENDER_EMAIL, MESSAGE) 
+		VALUES (#{roomId}, #{senderEmail}, #{message})
 	</insert>
 	
 
